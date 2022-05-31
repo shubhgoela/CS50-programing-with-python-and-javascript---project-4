@@ -1,0 +1,83 @@
+{% extends "mail/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h2 id="user">{{ request.user.email }}</h2>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" id="inbox" href="javascript:load_mailbox('inbox')">inbox
+            <span class="badge rounded-pill bg-danger" id="emailcount">10</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="compose" href="javascript:compose_email()">Compose</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="sent" href="javascript:load_mailbox('sent')">Sent</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="archive" href="javascript:load_mailbox('archive')">Archive</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+        </li>
+      </ul>
+
+    <div id="emails-view">
+    </div>
+
+    <div id="mail">
+        <h1> mail view </h1>
+        <button type="button" class="btn btn-outline-dark" id="mailreply" value="">Reply</button>
+        <button type="button" class="btn btn-outline-dark" id="mailarchive" value="">Archive</button>
+        <button type="button" class="btn btn-outline-dark" id="mailunread" value="">Mark as unread</button>
+        <hr>
+        <dl class="row">
+            <dt class="col-sm-3">Timestamp : </dt>
+            <dd class="col-sm-9" id="mailtimestamp"></dd>
+
+            <dt class="col-sm-3">From : </dt>
+            <dd class="col-sm-9" id="mailsender"></dd>
+          
+            <dt class="col-sm-3">To : </dt>
+            <dd class="col-sm-9" id="mailrecipients"></dd>
+          
+            <dt class="col-sm-3">Subject : </dt>
+            <dd class="col-sm-9" id="mailsubject"></dd>
+          
+            <dt class="col-sm-3">Body : </dt>
+            <dd class="col-sm-9" id="mailbody"></dd>
+          </dl>
+    </div>
+
+    
+
+    <div id="compose-view">
+        <h3>New Email</h3>
+        <form id="compose-form" onsubmit="sendmail();return false", action="">
+            <div class="form-group">
+                From: <input disabled class="form-control" value="{{ request.user.email }}">
+            </div>
+            <div class="form-group">
+                To: <input id="compose-recipients" class="form-control">
+                <div><small id="passwordHelp" class="text-danger"></small> </div>
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="compose-subject" placeholder="Subject">
+            </div>
+            <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
+            <br>
+            <input type="submit" class="btn btn-primary" value="Send"/>
+        </form> 
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'mail/inbox.js' %}"></script>
+    
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+{% endblock %}
