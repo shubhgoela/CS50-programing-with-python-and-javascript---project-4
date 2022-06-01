@@ -44,7 +44,7 @@ function sendmail(){
       console.log(Object.keys(result))
       console.log(Object.keys(result) == "error")
       if (Object.keys(result) == "message"){
-        load_mailbox('inbox')
+        load_mailbox('sent')
       }
       else{
         document.querySelector("#passwordHelp").innerHTML= result.error ;
